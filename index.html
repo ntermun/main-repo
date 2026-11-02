@@ -2,30 +2,49 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<title>nterminal pacman repository (aarch64)</title>
+<title>ntermun pacman repository (aarch64)</title>
 <style>
   body { font-family: system-ui, sans-serif; max-width: 46rem; margin: 3rem auto; padding: 0 1rem; line-height: 1.5; }
   code, pre { background: #f4f4f4; border-radius: 4px; }
   code { padding: .1rem .3rem; }
   pre { padding: .8rem; overflow-x: auto; }
+  table { border-collapse: collapse; }
+  td, th { border-bottom: 1px solid #ddd; padding: .3rem .6rem; text-align: left; }
 </style>
 </head>
 <body>
-<h1>nterminal pacman repository</h1>
-<p>Статические <code>aarch64-linux-musl</code> пакеты GNU userland.
-База: <a href="aarch64/nterminal.db.tar.gz">aarch64/nterminal.db.tar.gz</a>,
-файлы: <a href="aarch64/nterminal.files.tar.gz">aarch64/nterminal.files.tar.gz</a>.</p>
+<h1>ntermun pacman repository</h1>
+<p>Статические <code>aarch64-linux-musl</code> пакеты для терминала
+<a href="https://github.com/ntermun/ntermun">ntermun</a>.
+База: <a href="aarch64/ntermun.db.tar.gz">aarch64/ntermun.db.tar.gz</a>,
+файлы: <a href="aarch64/ntermun.files.tar.gz">aarch64/ntermun.files.tar.gz</a>.</p>
+
 <h2>pacman.conf</h2>
 <pre>[options]
 Architecture = aarch64
 SigLevel = Never
 
-[nterminal]
-Server = https://ntermun.github.io/main-repo/aarch64</pre>
+[ntermun]
+Server = https://ntermun.github.io/main-repo/aarch64
+</pre>
+
 <h2>Установка</h2>
-<pre>pacman -Sy
-pacman -S bash coreutils grep sed gawk tar gzip findutils diffutils make openssl openssh</pre>
-<p>Пакеты не подписаны (<code>SigLevel = Never</code>), доверие — HTTPS и CI.
-Исходники сборки: <a href="https://github.com/ntermun/packages">ntermun/packages</a>.</p>
+<pre>PREFIX=/data/data/nnn.ntermun/files
+$PREFIX/usr/bin/pacman --root "$PREFIX" -Sy
+$PREFIX/usr/bin/pacman --root "$PREFIX" -S pacman bash coreutils</pre>
+
+<p>Без pacman пакет можно распаковать напрямую:</p>
+<pre>tar --zstd -xf bash-5.3-1-aarch64.pkg.tar.zst -C /data/data/nnn.ntermun/files</pre>
+
+<h2>Пакеты</h2>
+<table>
+<tr><th>пакет</th><th>что внутри</th></tr>
+<tr><td>pacman</td><td>pacman, repo-add, makepkg</td></tr>
+<tr><td>bash coreutils grep sed gawk tar gzip findutils diffutils make</td><td>GNU userland</td></tr>
+<tr><td>openssl openssh openssh-server</td><td>ssh-клиент и sshd на порту 8022</td></tr>
+<tr><td>libarchive curl sqlite ncurses zlib bzip2 xz zstd</td><td>зависимости libalpm</td></tr>
+</table>
+
+<p>Инфраструктура сборки: <a href="https://github.com/ntermun/packages">ntermun/packages</a>.</p>
 </body>
 </html>
